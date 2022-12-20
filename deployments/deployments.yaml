@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ft
+  labels:
+    app: ft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ft
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ft
+    spec:
+      containers:
+      - image: ft_poc:1.0.0
+        name: ft
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256M"
+          limits:
+            cpu: "512m"
+            memory: "512M"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 10000
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 10000
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        ports:
+        - containerPort:  10000
+          name:  ft
+        volumeMounts:
+        - name: ft-poc-configmap
+          mountPath: /etc/config
+      volumes:
+        - name: ft-poc-configmap
+          configMap:
+            name: ft-data         
+      restartPolicy: Always

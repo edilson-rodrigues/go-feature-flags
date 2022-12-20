@@ -1,0 +1,48 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch file",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "args": ["file"],
+            "program": "${workspaceFolder}"
+        },
+          {
+        "name": "Attach to Kubernetes Pod (Go)",
+        "type": "cloudcode.kubernetes",
+        "request": "attach",
+        "language": "Go",
+        "debugPort": 10000,
+        "podSelector": {
+            "app": "ft"
+        },
+        "localRoot": "${workspaceFolder}",
+        "remoteRoot": "/app"
+    },
+    {
+        "name": "Kubernetes: Run/Debug",
+        "type": "cloudcode.kubernetes",
+        "request": "launch",
+        "autoStop": false,
+        "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
+        "watch": true,
+        "cleanUp": true,
+        "portForward": true,
+        "imageRegistry": "minikube",
+        "debug": [
+            {
+                "image": "ft_poc",
+                "containerName": "ft",
+                "sourceFileMap": {
+                    "${workspaceFolder}": ""
+                }
+            }
+        ]
+    },
+]
+}

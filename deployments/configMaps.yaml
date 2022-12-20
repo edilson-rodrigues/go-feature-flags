@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ft-data
+  labels:
+    app: ft-poc
+data:
+  key-1000: |-
+    key-1000:
+      percentage: 100
+      true: "FT Ativo"
+      false: "FT Inativo"
+      default: "Flag Padrão"
+      disable: false
+      trackEvents: true
+      version: 1
+      rollout:
+        experimentation:
+          start: 2022-12-19T00:00:00.00-03:00
+          end: 2022-12-19T23:59:59.99-03:00

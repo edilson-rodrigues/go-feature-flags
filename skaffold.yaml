@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: feature-toggles
+build:
+  artifacts:
+    - image: ft_poc
+      docker:
+        dockerfile: Dockerfile
+  tagPolicy:
+    sha256: {}
+deploy:
+  kubectl:
+    manifests:
+      - deployments/configMaps.yaml
+      - deployments/deployments.yaml
