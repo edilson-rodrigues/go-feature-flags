@@ -5,16 +5,16 @@ metadata:
   labels:
     app: ft-poc
 data:
-  key-1000: |-
+  release-toggles: |-
     key-1000:
       percentage: 100
-      true: "FT Ativo"
-      false: "FT Inativo"
-      default: "Flag Padrão"
+      true: "FT Ativo - ConfigMap"
+      false: "FT Inativo - ConfigMap"
+      default: "Flag Padrão - ConfigMap"
       disable: false
       trackEvents: true
       version: 1
       rollout:
         experimentation:
-          start: 2022-12-19T00:00:00.00-03:00
-          end: 2022-12-19T23:59:59.99-03:00
+          start: 2022-12-26T00:00:00.00-03:00
+          end: 2022-12-26T23:59:59.99-03:00

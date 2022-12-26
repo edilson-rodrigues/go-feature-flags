@@ -7,8 +7,7 @@ import (
 
 	ffclient "github.com/thomaspoignant/go-feature-flag"
 	"github.com/thomaspoignant/go-feature-flag/ffuser"
-	"github.com/thomaspoignant/go-feature-flag/retriever/k8sretriever"
-	"k8s.io/client-go/rest"
+	"github.com/thomaspoignant/go-feature-flag/retriever/fileretriever"
 )
 
 func health(w http.ResponseWriter, r *http.Request) {
@@ -23,10 +22,31 @@ func handleRequests() {
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {}) // Avoid duplicate calls on browser
 	http.HandleFunc("/health", health)                                               // Avoid duplicate calls on browser
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		user := ffuser.NewUser("user-A")
-		ftKey1000, _ := ffclient.StringVariation("key-1000", user, "")
-		println(ftKey1000)
-		fmt.Fprintf(w, "Executing toggle: "+ftKey1000+"!")
+		userA := ffuser.NewUser("user-A")
+		ftKey1000A, _ := ffclient.StringVariation("key-1000", userA, "")
+		fmt.Fprintln(w, "Executing toggle: "+ftKey1000A+" for user-A!")
+		println(ftKey1000A)
+
+		userB := ffuser.NewUser("user-B")
+		ftKey1000B, _ := ffclient.StringVariation("key-1000", userB, "")
+		fmt.Fprintln(w, "Executing toggle: "+ftKey1000B+" for user-B!")
+		println(ftKey1000B)
+
+		userC := ffuser.NewUser("user-C")
+		ftKey1000C, _ := ffclient.StringVariation("key-1000", userC, "")
+		fmt.Fprintln(w, "Executing toggle: "+ftKey1000C+" for user-C!")
+		println(ftKey1000C)
+
+		userD := ffuser.NewUser("user-D")
+		ftKey1000D, _ := ffclient.StringVariation("key-1000", userD, "")
+		fmt.Fprintln(w, "Executing toggle: "+ftKey1000D+" for user-D!")
+		println(ftKey1000D)
+
+		userE := ffuser.NewUser("user-E")
+		ftKey1000E, _ := ffclient.StringVariation("key-1000", userE, "")
+		fmt.Fprintln(w, "Executing toggle: "+ftKey1000E+" for user-E!")
+		println(ftKey1000E)
+
 		fmt.Println("Endpoint Hit")
 	})
 
@@ -37,40 +57,15 @@ func handleRequests() {
 func main() {
 	println("Inicio main")
 
-	var err error
-	// if len(os.Args) > 1 {
-	// 	switch os.Args[1] {
-	// 	case "file":
-	// err := ffclient.Init(ffclient.Config{
-	// 	PollingInterval: 3 * time.Second,
-	// 	Retriever: &fileretriever.Retriever{
-	// 		Path: "test/toggles/keys.yaml",
-	// 	},
-	// })
-	// println("Carregando File Retriever")
-	// defer ffclient.Close()
-	// case "k8s":
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		print("Cluster k8s não encontrado")
-		panic("Cluster k8s não encontrado")
-	}
-
-	err = ffclient.Init(ffclient.Config{
+	err := ffclient.Init(ffclient.Config{
 		PollingInterval: 3 * time.Second,
-		Retriever: &k8sretriever.Retriever{
-			Namespace:     "default",
-			ConfigMapName: "ft-data",
-			Key:           "key-1000",
-			ClientConfig:  *config,
+		Retriever: &fileretriever.Retriever{
+			//Path: "/etc/config/release-toggles",
+			Path: "test/toggles/keys.yaml",
 		},
 	})
-	println("Carregando K8s Retriever")
+	println("Carregando File Retriever")
 	defer ffclient.Close()
-	// default:
-	// 	println("Escolha uma das opções de retriever: [File, k8s]")
-	// 	return
-	// }
 
 	if err == nil {
 		user := ffuser.NewUser("user-A")
@@ -79,9 +74,5 @@ func main() {
 		handleRequests()
 		println("Inicio main")
 	}
-	// } else {
-	// 	println("Escolha uma das opções de retriever: [File, k8s]")
-	// 	return
-	// }
 
 }

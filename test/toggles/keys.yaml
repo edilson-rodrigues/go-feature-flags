@@ -1,12 +1,13 @@
 key-1000:
-  percentage: 100
-  true: "FT Ativo"
-  false: "FT Inativo"
-  default: "Flag Padrão"
+  percentage: 25
+  true: "FT Ativo - Arquivo"
+  false: "FT Inativo - Arquivo"
+  default: "Flag Padrão - Arquivo"
+  # rule: "key eq \"user-C\""
   disable: false
   trackEvents: true
   version: 1
   rollout:
     experimentation:
-      start: 2022-12-20T00:00:00.00-03:00
-      end: 2022-12-20T23:59:59.99-03:00
+      start: 2022-12-26T00:00:00.00-03:00
+      end: 2022-12-26T23:59:59.99-03:00
