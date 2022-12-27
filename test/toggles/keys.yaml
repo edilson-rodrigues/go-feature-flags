@@ -1,5 +1,5 @@
 key-1000:
-  percentage: 25
+  percentage: 0
   true: "FT Ativo - Arquivo"
   false: "FT Inativo - Arquivo"
   default: "Flag Padrão - Arquivo"
@@ -8,6 +8,24 @@ key-1000:
   trackEvents: true
   version: 1
   rollout:
-    experimentation:
-      start: 2022-12-26T00:00:00.00-03:00
-      end: 2022-12-26T23:59:59.99-03:00
+    # experimentation:
+    #   start: 2022-12-27T00:00:00.00-03:00
+    #   end: 2022-12-27T23:59:59.99-03:00
+    scheduled:
+      steps:
+        # - date: 2022-12-27T11:20:00.00-03:00
+        #   rule: key eq "user-A"
+
+        - date: 2022-12-27T11:21:00.00-03:00
+          percentage: 100
+          rule: ""
+        
+        # - date: 2022-12-27T00:00:00.00-03:00
+        #   rule: beta eq "false"    
+    # progressive:
+    #   percentage:
+    #     initial: 0
+    #     end: 100
+    #   releaseRamp:
+    #     start: 2022-12-27T11:14:00.00-03:00
+    #     end: 2022-12-27T11:16:59.99-03:00

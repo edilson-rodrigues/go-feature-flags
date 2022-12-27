@@ -7,7 +7,7 @@ metadata:
 data:
   release-toggles: |-
     key-1000:
-      percentage: 100
+      percentage: 25
       true: "FT Ativo - ConfigMap"
       false: "FT Inativo - ConfigMap"
       default: "Flag Padrão - ConfigMap"
