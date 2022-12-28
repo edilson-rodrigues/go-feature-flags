@@ -55,17 +55,17 @@ func main() {
 		},
 		PollingInterval: 3 * time.Second,
 		Retriever: &fileretriever.Retriever{
-			//Path: "/etc/config/release-toggles",
-			Path: "test/toggles/keys.yaml",
+			Path: "/etc/config/release-toggles",
+			//Path: "test/toggles/keys.yaml",
 		},
 	})
 	println("Carregando File Retriever")
 	defer ffclient.Close()
 
 	if err == nil {
-		user := ffuser.NewUser("user-A")
-		ftKey1000, _ := ffclient.StringVariation("key-1000", user, "")
-		println(ftKey1000)
+		// user := ffuser.NewUser("user-A")
+		// ftKey1000, _ := ffclient.StringVariation("key-1000", user, "")
+		// println(ftKey1000)
 		handleRequests()
 		println("Inicio main")
 	}

@@ -1,9 +1,10 @@
 key-1000:
-  percentage: 0
+  percentage: 25
   true: "FT Ativo - Arquivo"
   false: "FT Inativo - Arquivo"
   default: "Flag Padrão - Arquivo"
   # rule: "key eq \"user-C\""
+  rule: "key eq user-B"
   disable: false
   trackEvents: true
   version: 1
@@ -16,9 +17,9 @@ key-1000:
         # - date: 2022-12-27T11:20:00.00-03:00
         #   rule: key eq "user-A"
 
-        - date: 2022-12-27T11:21:00.00-03:00
+        - date: 2022-12-28T12:00:00.00-03:00
           percentage: 100
-          rule: ""
+          rule: "key eq \"user-B\""
         
         # - date: 2022-12-27T00:00:00.00-03:00
         #   rule: beta eq "false"    

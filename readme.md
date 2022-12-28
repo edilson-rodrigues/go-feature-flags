@@ -11,8 +11,8 @@ docker tag
 
 2) Expose service:
 
-kubectl expose deployment myjob --type=NodePort --port=8080
+kubectl expose deployment app --type=NodePort --port=8080
 
 3) Create tunnel to service:
 
-minikube service myjob --url
+minikube service app --url

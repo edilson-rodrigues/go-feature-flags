@@ -7,7 +7,7 @@ metadata:
 data:
   release-toggles: |-
     key-1000:
-      percentage: 25
+      percentage: 100
       true: "FT Ativo - ConfigMap"
       false: "FT Inativo - ConfigMap"
       default: "Flag Padrão - ConfigMap"
@@ -16,5 +16,5 @@ data:
       version: 1
       rollout:
         experimentation:
-          start: 2022-12-26T00:00:00.00-03:00
-          end: 2022-12-26T23:59:59.99-03:00
+          start: 2022-12-28T00:00:00.00-03:00
+          end: 2022-12-28T23:59:59.99-03:00
