@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -17,11 +18,28 @@ func health(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Hit: Health check ok!")
 }
 
-func executeByToggle(userKey string, w *http.ResponseWriter) {
+func executeByToggle(userKey string) []string {
 	user := ffuser.NewUser(userKey)
 	ftKey1000, _ := ffclient.StringVariation("key-1000", user, "")
-	fmt.Fprintf(*w, "Executing toggle: %s for %s \n", ftKey1000, userKey)
-	println(ftKey1000)
+	ftKey2000, _ := ffclient.StringVariation("key-2000", user, "")
+	ftKey3000, _ := ffclient.StringVariation("key-3000", user, "")
+
+	return []string{ftKey1000, ftKey2000, ftKey3000}
+}
+
+func deleteEmpty(s []string) []string {
+	var r []string
+	for _, str := range s {
+		if str != "" {
+			r = append(r, str)
+		}
+	}
+	return r
+}
+
+func writeJson(w *http.ResponseWriter, keys []string) {
+	keysJson, _ := json.Marshal(keys)
+	fmt.Fprintf(*w, "{ %s }", string(keysJson))
 }
 
 func handleRequests() {
@@ -29,13 +47,11 @@ func handleRequests() {
 	print("Starting route register")
 
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {}) // Avoid duplicate calls on browser
-	http.HandleFunc("/health", health)                                               // Avoid duplicate calls on browser
+	http.HandleFunc("/health", health)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		executeByToggle("user-A", &w)
-		executeByToggle("user-B", &w)
-		executeByToggle("user-C", &w)
-		executeByToggle("user-D", &w)
-		executeByToggle("user-E", &w)
+		keys := executeByToggle("user-A")
+		keys = deleteEmpty(keys)
+		writeJson(&w, keys)
 
 		fmt.Println("Endpoint Hit")
 	})
@@ -46,7 +62,6 @@ func handleRequests() {
 
 func main() {
 	println("Inicio main")
-
 	err := ffclient.Init(ffclient.Config{
 		Notifiers: []notifier.Notifier{
 			&slacknotifier.Notifier{
@@ -63,9 +78,6 @@ func main() {
 	defer ffclient.Close()
 
 	if err == nil {
-		// user := ffuser.NewUser("user-A")
-		// ftKey1000, _ := ffclient.StringVariation("key-1000", user, "")
-		// println(ftKey1000)
 		handleRequests()
 		println("Inicio main")
 	}
