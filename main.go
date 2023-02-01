@@ -49,9 +49,13 @@ func handleRequests() {
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {}) // Avoid duplicate calls on browser
 	http.HandleFunc("/health", health)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+    	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 		keys := executeByToggle("user-A")
 		keys = deleteEmpty(keys)
-		writeJson(&w, keys)
+		json.NewEncoder(w).Encode(keys)
 
 		fmt.Println("Endpoint Hit")
 	})
